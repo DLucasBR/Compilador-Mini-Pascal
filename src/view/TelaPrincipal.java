@@ -40,6 +40,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compilador Mini-Pascal ");
         setPreferredSize(new java.awt.Dimension(400, 300));
+        setResizable(false);
         setSize(new java.awt.Dimension(500, 400));
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 0));

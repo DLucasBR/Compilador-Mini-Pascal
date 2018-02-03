@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-
 import Compilador.Token;
-import java.awt.List;
+import Compilador.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,29 +12,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
-
-
-
 /**
  *
  * @author daluc
  */
 public class TelaAnaliseLexica extends javax.swing.JFrame {
-
     /**
      * Creates new form TelaAnaliseLexica
      */
     
-    private static File arquivoAtual = null;
-    private String txt = "";
-    
+    private ArrayList<Character> arrayDeCaracteresCodigoFonte;
     
     public TelaAnaliseLexica() {
+        this.arrayDeCaracteresCodigoFonte = new ArrayList<>();
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,10 +40,10 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
         botaoSelecionarArquivo = new javax.swing.JButton();
         txtDiretorioCodigoFonte = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtCodigoFonte = new javax.swing.JTextArea();
+        textAreaCodigoFonte = new javax.swing.JTextArea();
         botaoAnalisar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtTokens = new javax.swing.JTextArea();
+        textAreaTokens = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -74,10 +60,10 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
         txtDiretorioCodigoFonte.setEditable(false);
         txtDiretorioCodigoFonte.setFocusable(false);
 
-        txtCodigoFonte.setEditable(false);
-        txtCodigoFonte.setColumns(20);
-        txtCodigoFonte.setRows(5);
-        jScrollPane1.setViewportView(txtCodigoFonte);
+        textAreaCodigoFonte.setEditable(false);
+        textAreaCodigoFonte.setColumns(20);
+        textAreaCodigoFonte.setRows(5);
+        jScrollPane1.setViewportView(textAreaCodigoFonte);
 
         botaoAnalisar.setText("Analise Lexica");
         botaoAnalisar.addActionListener(new java.awt.event.ActionListener() {
@@ -86,10 +72,10 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
             }
         });
 
-        txtTokens.setEditable(false);
-        txtTokens.setColumns(20);
-        txtTokens.setRows(5);
-        jScrollPane2.setViewportView(txtTokens);
+        textAreaTokens.setEditable(false);
+        textAreaTokens.setColumns(20);
+        textAreaTokens.setRows(5);
+        jScrollPane2.setViewportView(textAreaTokens);
 
         jLabel1.setText("Tokens");
 
@@ -157,74 +143,107 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
 
     private void botaoSelecionarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarArquivoActionPerformed
         
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Selecione arquivo de codigo fonte");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        JFileChooser fileChooser = instanciaFileChooser();
+        int respostaDoFileChooser = fileChooser.showOpenDialog(this);
         
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
+        File arquivoCodigoFonte;
         
-        fileChooser.setFileFilter(filter);
-        int retorno = fileChooser.showOpenDialog(this);
-        
-        if(retorno == JFileChooser.APPROVE_OPTION){
-            arquivoAtual = fileChooser.getSelectedFile();
-            txtDiretorioCodigoFonte.setText(arquivoAtual.getPath());
+        if(respostaDoFileChooser == JFileChooser.APPROVE_OPTION){
+            
+            limpaTextField(textAreaCodigoFonte);
+            arrayDeCaracteresCodigoFonte.clear();
+            /*Caso nao seja a primeira vez que o usuario seleciona um arquivo nesta intancia*/
+            
+            arquivoCodigoFonte = fileChooser.getSelectedFile();
+            imprimeTextField(txtDiretorioCodigoFonte, arquivoCodigoFonte.getPath());
             
             try {
-                BufferedReader in = new BufferedReader(new FileReader(arquivoAtual.getPath()));
-                String str;
-			while((str = in.readLine()) != null){
-				txt += str + "\n";
+
+                BufferedReader leitorDeCaracteres = new BufferedReader(new FileReader(arquivoCodigoFonte.getPath()));
+                int aux;
+		
+                    while((aux = leitorDeCaracteres.read()) != -1){
+				arrayDeCaracteresCodigoFonte.add((char)aux);
 			}
-			txtCodigoFonte.setText(txt);                       
+                    
+                arrayDeCaracteresCodigoFonte.add((char)'\000');
+                leitorDeCaracteres.close();
+                
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(TelaAnaliseLexica.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(TelaAnaliseLexica.class.getName()).log(Level.SEVERE, null, ex);
-            }     
+            }
+            
+            imprimeTextArea(textAreaCodigoFonte,arrayDeCaracteresCodigoFonte);
         }
     }//GEN-LAST:event_botaoSelecionarArquivoActionPerformed
 
     private void botaoAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAnalisarActionPerformed
         
-        if(arquivoAtual != null){ 
-           
-            Compilador.Scanner scanner;
-            scanner = new Compilador.Scanner(txt.toCharArray());
-            ArrayList<Token> arrayDeTokens = new ArrayList<Token>();
-
-            int numeroCaracteresCodigoFonte = txt.toCharArray().length;
+        if(!arrayDeCaracteresCodigoFonte.isEmpty()){ 
+                                    
+            Scanner scanner = new Scanner(arrayDeCaracteresCodigoFonte); 
+            limpaTextField(textAreaTokens);
             Token aux;
-            String txtToken="";
                     
-            while(true){
-                if(scanner.posicaoDeLeitura >= (numeroCaracteresCodigoFonte - 1))
-                    break;
+            do{ 
+               
                 aux = scanner.scan();
-                arrayDeTokens.add(aux);
-            }
-            
-            txtTokens.setText("");
-            String auxKind = "",auxSpelling = "";
-            
-            for(int i = 0; i < arrayDeTokens.size(); i++ ){
-                auxKind = Token.spellings[arrayDeTokens.get(i).kind];
-                auxSpelling = arrayDeTokens.get(i).spelling;
-                txtToken = txtToken + auxSpelling + "\t" + auxKind + "\n";
-            }
-             txtTokens.setText(txtToken);
+                imprimeTextArea(textAreaTokens, aux.spelling + "\t" + Token.getSpellings(aux.kind) + '\n');
+           
+            }while(aux.kind != Token.EOT); 
+
         }else{
-            System.out.println("Selecione um arquivo");
+           imprimeTextArea(textAreaTokens,"Selecione um arquivo de codigo fonte!");
         } 
     }//GEN-LAST:event_botaoAnalisarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+    
+    private void imprimeTextArea(javax.swing.JTextArea textArea, ArrayList<Character> texto){
+ 
+        for(Character c : texto)
+                textArea.append(c.toString());
+    }
+    
+    private void imprimeTextArea(javax.swing.JTextArea textArea, String texto){
+        
+        textArea.append(texto);
+    
+    }
+   
+    private void imprimeTextField(javax.swing.JTextField textField, String texto)
+    {
+    
+        textField.setText(texto);
+    
+    }
+    
+    private void limpaTextField(javax.swing.JTextArea textField){
+        
+        textField.setText("");
+    
+    }
+    
+    private JFileChooser instanciaFileChooser (){
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecione arquivo de codigo fonte");
+        
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+        /*fileChooser aceita apenas arquivos (não diretorios)*/
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
+        /*Por enquanto apenas .arrayDeCaracteresCodigoFonte, iremos criar uma extensão propria do mini-pascal no futuro?*/
+        
+        fileChooser.setFileFilter(filter);
+        
+        return fileChooser;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* If Nimbus (introduced leitorDeCaracteres Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
@@ -261,8 +280,8 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea txtCodigoFonte;
+    private javax.swing.JTextArea textAreaCodigoFonte;
+    private javax.swing.JTextArea textAreaTokens;
     private javax.swing.JTextField txtDiretorioCodigoFonte;
-    private javax.swing.JTextArea txtTokens;
     // End of variables declaration//GEN-END:variables
 }
