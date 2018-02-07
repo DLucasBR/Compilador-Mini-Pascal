@@ -52,13 +52,13 @@ public class Token {
             FUNCTION = 12, OPEN_PARENTESES = 13, CLOSE_PARENTESES = 14, VERTICAL_TWO_DOTS = 15, 
             SEMI_COLON = 16, PROCEDURE = 17, VAR = 18, WHILE = 19, DO = 20,COMMA = 21,OPEN_COCHETE = 22, 
             CLOSE_COCHETE = 23, ARRAY = 24, HORIZONTAL_TWO_DOTS = 25, OF = 26, INTEGER = 27, REAL = 28, 
-            BOOLEAN = 29, ATTRIBUTION = 30, EOT = 31;  
+            BOOLEAN = 29, ATTRIBUTION = 30, SINGLE_DOT = 31, OUTROS = 32, EOT = 33;  
     
    /*public apenas para imprimir, deveria ser private*/
     private final static String[] spellings = { "<id>", "<op_ad>", "<op_mul>", "<op_rel>", "<int_literal>", 
         "<float_literal>", "<bool_literal>", "begin", "end", "if", "then", "else", "function", "(", ")", ":",
         ";", "procedure", "var", "while", "do", ",", "[", "]", "array", "..", "of", "int", "float", "boolean",
-        ":=", "<eot>"};
+        ":=", ".", "<outros>", "<eot>"};
     
     public static String getSpellings(int index){
         if (( index < spellings.length ) && ( index >= 0 ))

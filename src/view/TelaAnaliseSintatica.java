@@ -20,14 +20,14 @@ import static view.ViewAuxiliar.limpaTextField;
  *
  * @author daluc
  */
-public class TelaAnaliseLexica extends javax.swing.JFrame {
+public class TelaAnaliseSintatica extends javax.swing.JFrame {
     /**
      * Creates new form TelaAnaliseLexica
      */
     
     private ArrayList<Character> arrayDeCaracteresCodigoFonte;
     
-    public TelaAnaliseLexica() {
+    public TelaAnaliseSintatica() {
         this.arrayDeCaracteresCodigoFonte = new ArrayList<>();
         initComponents();
     }
@@ -69,7 +69,7 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
         textAreaCodigoFonte.setRows(5);
         jScrollPane1.setViewportView(textAreaCodigoFonte);
 
-        botaoAnalisar.setText("Analise Lexica");
+        botaoAnalisar.setText("Analise Sintatica");
         botaoAnalisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoAnalisarActionPerformed(evt);
@@ -81,7 +81,7 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
         textAreaTokens.setRows(5);
         jScrollPane2.setViewportView(textAreaTokens);
 
-        jLabel1.setText("Tokens");
+        jLabel1.setText("Resultado");
 
         jLabel2.setText("Codigo Fonte");
 
@@ -174,9 +174,9 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
                 leitorDeCaracteres.close();
                 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(TelaAnaliseLexica.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(TelaAnaliseLexica.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             imprimeTextArea(textAreaCodigoFonte,arrayDeCaracteresCodigoFonte);
@@ -219,20 +219,21 @@ public class TelaAnaliseLexica extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaAnaliseLexica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaAnaliseLexica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaAnaliseLexica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaAnaliseLexica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAnaliseSintatica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaAnaliseLexica().setVisible(true);
+                new TelaAnaliseSintatica().setVisible(true);
             }
         });
     }
