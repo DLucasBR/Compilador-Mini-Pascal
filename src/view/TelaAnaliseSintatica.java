@@ -1,7 +1,7 @@
 package view;
 
-import Compilador.Token;
-import Compilador.Scanner;
+import compiler.front_end.Token;
+import compiler.front_end.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

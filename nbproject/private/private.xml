@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/view/ViewAuxiliar.java</file>
             <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/view/TelaPrincipal.java</file>
             <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/Compilador/Token.java</file>
             <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/Compilador/Scanner.java</file>
             <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/view/TelaAnaliseLexica.java</file>
+            <file>file:/C:/Users/daluc/Documents/NetBeansProjects/Compilador/src/view/TelaAnaliseSintatica.java</file>
         </group>
     </open-files>
 </project-private>
