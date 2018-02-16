@@ -1,7 +1,8 @@
 package view;
 
-import compiler.front_end.Token;
-import compiler.front_end.Scanner;
+//import compiler.front_end.Token;
+//import compiler.front_end.Scanner;
+import compiler.front_end.Parser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -186,23 +187,13 @@ public class TelaAnaliseSintatica extends javax.swing.JFrame {
     private void botaoAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAnalisarActionPerformed
         
         if(!arrayDeCaracteresCodigoFonte.isEmpty()){ 
-                                    
-            Scanner scanner = new Scanner(arrayDeCaracteresCodigoFonte); 
+            
+            Parser parser =new Parser(arrayDeCaracteresCodigoFonte);
+            parser.parse();
             limpaTextField(textAreaTokens);
-            Token aux;
-                    
-            do{ 
-               
-                aux = scanner.scan();
-                imprimeTextArea(textAreaTokens, aux.spelling + "\t" + Token.getSpellings(aux.kind) + '\n');
-           
-            }while(aux.kind != Token.EOT); 
-
-        }else{
-           imprimeTextArea(textAreaTokens,"Selecione um arquivo de codigo fonte!");
-        } 
+            
     }//GEN-LAST:event_botaoAnalisarActionPerformed
-    
+ }
 
     
     public static void main(String args[]) {

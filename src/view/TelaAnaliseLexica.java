@@ -16,14 +16,9 @@ import static view.ViewAuxiliar.imprimeTextArea;
 import static view.ViewAuxiliar.imprimeTextField;
 import static view.ViewAuxiliar.instanciaFileChooser;
 import static view.ViewAuxiliar.limpaTextField;
-/**
- *
- * @author daluc
- */
+
 public class TelaAnaliseLexica extends javax.swing.JFrame {
-    /**
-     * Creates new form TelaAnaliseLexica
-     */
+    
     
     private ArrayList<Character> arrayDeCaracteresCodigoFonte;
     

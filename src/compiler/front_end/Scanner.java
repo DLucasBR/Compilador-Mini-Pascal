@@ -28,6 +28,9 @@ public class Scanner {
     
     public Scanner(ArrayList<Character> codigoFonte){
         this.codigoFonte = codigoFonte;
+        /*while(!codigoFonte.isEmpty()){
+            System.out.println(codigoFonte.remove(0));
+        }*/
         this.currentChar = codigoFonte.get(0);
     }
     
@@ -206,6 +209,11 @@ public class Scanner {
                 
             case '\000':     
                 return Token.EOT;
+                
+            case ',':
+                takeIt();
+                System.out.println("VÍRGULA");
+                return Token.COMMA;
             
             default:
                  System.out.print("Numero da linha = " + (numeroDeLinha + 1) +"\t");
