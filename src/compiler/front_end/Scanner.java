@@ -123,6 +123,8 @@ public class Scanner {
                 while(isDigit(currentChar))
                     takeIt();
                 if(currentChar == '.'){
+                    if(codigoFonte.get(posicaoDeLeitura + 1) == '.')
+                        return Token.INT_LITERAL;
                     takeIt();
                     while(isDigit(currentChar))
                         takeIt();
